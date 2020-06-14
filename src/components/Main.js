@@ -1,6 +1,6 @@
 import React from "react";
 
-const Main = (posts, loadingPost) => {
+const Main = ({ posts, loadingPost }) => {
   return (
     <div className="Main">
       {loadingPost && <p>"로딩 중 .."</p>}

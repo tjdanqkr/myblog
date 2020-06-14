@@ -1,29 +1,18 @@
-import React from "react";
-import { connect } from "react-redux";
-import Sample from "../components/Main";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { getPostcheck, getPosts } from "../modules/main";
 import Main from "../components/Main";
 
-const { useEffect } = React;
-const MainContainer = ({ posts, loadingPost, getPosts }) => {
+const MainContainer = () => {
+  const { main, loading } = useSelector(state => state, shallowEqual);
+  const { posts } = main;
+  const { loadingPost } = loading;
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const fn = async () => {
-      try {
-        await getPosts();
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fn();
-  }, [getPosts]);
+    dispatch(getPosts());
+  }, []);
   return <Main posts={posts} loadingPost={loadingPost}></Main>;
 };
-export default connect(
-  ({ main, loading }) => ({
-    posts: main.posts,
-    loadingPost: loading["main/GET_POST"],
-  }),
-  {
-    getPosts,
-  }
-)(MainContainer);
+
+export default MainContainer;
